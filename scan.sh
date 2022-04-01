@@ -51,10 +51,10 @@ function _docker() {
 # sbom-scan
 function sbom_scan(){
   base_dir="$2"
-  [ -z "$base_dir" ] && raise_error "Directory to scan is missing"
+  [ -z "$base_dir" ] && raise_error "\n Directory to scan is missing"
   if [[ -t 0 ]]; then IT+=(-i); fi
   if [[ -t 1 ]]; then IT+=(-t); fi
-  echo -e "Scanning $base_dir"
+  #echo -e "\n ${BOLD}Scanning $base_dir${NC}"
   _docker run --rm "${IT[@]}" -v "${base_dir}:/scan-dir" rajasoun/sbom-shell:1.1
   rm -fr $base_dir/vulnerable_packages.txt
 }
@@ -62,18 +62,16 @@ function sbom_scan(){
 
 # stops apps and clean logs
 function clean(){
-  echo -e "Deleting Docker Images "
+  echo -e "\n Deleting Docker Images "
   docker rmi rajasoun/sbom-shell:1.1
   rm -fr vulnerable_packages.txt
 }
 
 # help 
 function help(){
-  echo -e "${RED}Usage: $0  { sbom-scan | sast | dast } ${NC}" >&2
+  echo -e "${RED}Usage: $0  { sbom-scan } ${NC}" >&2
   echo
   echo "   ${ORANGE}sbom-scan <dir> -> Software Bill of Material (SBOM) Scanner ${NC}"
-  echo "   ${ORANGE}sast      <dir> -> Satic Application Security Test ${NC}"
-  echo "   ${ORANGE}dast     <host> -> Dynamic Application Security Test ${NC}"
   echo
   return 1
 }
