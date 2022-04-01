@@ -25,17 +25,19 @@ function print_repo_details(){
 }
 
 
-echo -e "${BOLD}${UNDERLINE}\n Spring4Shell Vulnerability Scanner - v1.0${NC}\n"
+echo -e "${BOLD}${UNDERLINE}\n Spring4Shell Vulnerability Basic Scanner - v1.0${NC}\n"
 print_repo_details
 echo -e "Scanning for CVE-2022-22965 Vulnerability"
-package_count=$(syft packages dir:. -o table  | grep -e "spring-beans" -e "spring-webmvc" -e "spring-boot")
+syft packages dir:. -o table  | grep -e "spring-beans" -e "spring-webmvc" -e "spring-boot" > vulnerable_packages.txt 
 
-if [ $package_count != 0 ]; then 
-    echo -e "\n ${RED}Vulnerablity Found 🔴 ${NC}\n"
+if [ $(cat vulnerable_packages.txt | wc -l)   != 0 ]; then 
+    echo -e "\n ${RED}Vulnerable 3rd Party Packages Found 🔴 ${NC}\n"
+    cat vulnerable_packages.txt
+    echo -e "\n ${ORANGE}${UNDERLINE}Recommendations ${NC}\n"
+    echo -e "1. Upgrade Spring Framework 5.3.18+ or 5.2.20+"
+    echo -e "2. Upgrade Sprint Boot to 2.6.6"
 else 
-    echo -e "\n ${GREEN}Vulnerablity  NOT Found ✅ ${NC}\n"
+    echo -e "\n ${GREEN}Vulnerable 3rd Party Packages NOT Found in Basic Scan ✅ ${NC}\n"
+    echo -e "\n ${ORANGE}${UNDERLINE} Double Confirm https://spring.io/blog/2022/03/31/spring-framework-rce-early-announcement ${NC}\n"
 fi 
 
-echo -e "\n ${ORANGE}${UNDERLINE}Recommendation ${NC}\n"
-echo -e "1. Upgrade Spring Framework 5.3.18+ or 5.2.20+"
-echo -e "2. Upgrade Sprint Boot to 2.6.6"
