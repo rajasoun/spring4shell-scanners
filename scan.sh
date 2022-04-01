@@ -55,7 +55,7 @@ function sbom_scan(){
   if [[ -t 0 ]]; then IT+=(-i); fi
   if [[ -t 1 ]]; then IT+=(-t); fi
   echo -e "Scanning $base_dir"
-  _docker run --rm "${IT[@]}" -v "${base_dir}:/scan-dir" rajasoun/sbom-shell:1.0
+  _docker run --rm "${IT[@]}" -v "${base_dir}:/scan-dir" rajasoun/sbom-shell:1.1
   rm -fr $base_dir/sbom.json
 }
 
