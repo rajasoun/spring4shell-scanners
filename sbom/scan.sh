@@ -28,7 +28,7 @@ function print_repo_details(){
 echo -e "${BOLD}${UNDERLINE}\nSpring4Shell Vulnerability Basic Scanner - v1.0${NC}\n"
 print_repo_details
 echo -e "Scanning for CVE-2022-22965 Vulnerability"
-syft packages dir:. -o table  | grep -e "spring-beans" -e "spring-webmvc" -e "spring-boot" > vulnerable_packages.txt 
+syft packages dir:. -o table  | grep -e "spring-beans" -e "spring-boot-starter-web" -e "spring-boot-starter-tomcat" > vulnerable_packages.txt 
 
 if [ $(cat vulnerable_packages.txt | wc -l)   != 0 ]; then 
     echo -e "\n ${RED}${BOLD}Vulnerable 3rd Party Packages Found 🔴 ${NC}\n"
